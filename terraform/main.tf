@@ -28,6 +28,5 @@ module "EC2_instance" {
   instance_type      = var.instance_type
   key_name           = var.key_name
   subnet_ids         = [var.subnet-1, var.subnet-2, var.subnet-3]
-
   instance_count     = 1
 }

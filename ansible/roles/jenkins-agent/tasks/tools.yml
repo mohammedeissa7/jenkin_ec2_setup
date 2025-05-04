@@ -1,0 +1,53 @@
+---
+- name: Install Python 3
+  apt:
+    name: python3
+    state: present
+
+- name: Install pip
+  become: true
+  apt:
+    name: python3-pip
+    state: present
+
+- name: Install boto3 using apt
+  become: true
+  apt:
+    name: python3-boto3
+    state: present
+
+- name: Install aws-cli snap
+  snap:
+    name: aws-cli
+    classic: yes
+    state: present
+
+- name: Install Ansible
+  become: true
+  apt:
+    name: ansible
+    state: latest
+
+- name: Add HashiCorp GPG key
+  become: yes
+  shell: "wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg"
+
+- name: Add HashiCorp APT repository
+  become: yes
+  shell: "echo deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main | sudo tee /etc/apt/sources.list.d/hashicorp.list"
+
+- name: Update apt cache
+  become: yes
+  become_method: sudo
+  apt:
+    update_cache: yes
+
+- name: Install Terraform
+  apt:
+    name: terraform
+    state: present
+
+- name: Install Packer
+  apt:
+    name: packer
+    state: present
